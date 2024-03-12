@@ -16,6 +16,10 @@ inputs:
     description: 'silence GitHub Annotation notice displayed if resolving `latest` into Vulkan SDK release number'
     default: false
     required: false
+  validation:
+    description: 'running glslangValidator after installation'
+    default: false
+    required: false
 runs:
   using: "composite"
   steps:
@@ -77,6 +81,7 @@ runs:
         rm -v vulkan_sdk.* || true
 
     - name: Verify Vulkan SDK binary
+      if: inputs.validation != 'false'
       shell: bash
       run: |
         $VULKAN_SDK/bin/glslangValidator --version
